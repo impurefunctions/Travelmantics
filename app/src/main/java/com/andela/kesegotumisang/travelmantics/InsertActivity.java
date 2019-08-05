@@ -3,6 +3,7 @@ package com.andela.kesegotumisang.travelmantics;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -25,8 +26,9 @@ public class InsertActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_insert);
-        mDatabase = FirebaseDatabase.getInstance();
-        mDBReference = mDatabase.getReference().child("traveldeals");
+        FirebaseUtil.openFbReference("traveldeals");
+        mDatabase = FirebaseUtil.mDatabase;
+        mDBReference = FirebaseUtil.mDBReference;
 
         txtTitle = findViewById(R.id.txtTitle);
         txtDescription = findViewById(R.id.txtDescription);
@@ -62,8 +64,8 @@ public class InsertActivity extends AppCompatActivity {
     private void saveDeal() {
 
         String title = txtTitle.getText().toString();
-        String description = txtTitle.getText().toString();
-        String price = txtTitle.getText().toString();
+        String description = txtDescription.getText().toString();
+        String price = txtPrice.getText().toString();
 
         TravelDeal deal = new TravelDeal(title,description,price,"");
 
@@ -72,6 +74,11 @@ public class InsertActivity extends AppCompatActivity {
     }
 
     private void clean() {
+
+        txtPrice.setText("");
+        txtDescription.setText("");
+        txtTitle.setText("");
+        startActivity(new Intent(InsertActivity.this,ListActivity.class));
     }
 
 
